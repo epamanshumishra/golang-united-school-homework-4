@@ -37,9 +37,9 @@ func StringSum(input string) (output string, err error) {
 		return "", errorEmptyString
 	}
 	for pos := 0; pos < len(stringWithoutSpaces); pos++ {
-		if input[pos] == '-' {
+		if stringWithoutSpaces[pos] == '-' {
 			operator = '-'
-		} else if input[pos] == '+' {
+		} else if stringWithoutSpaces[pos] == '+' {
 			operator = '+'
 		} else if stringWithoutSpaces[pos] >= '0' && stringWithoutSpaces[pos] <= '9' {
 			for i := pos; i < len(stringWithoutSpaces) && stringWithoutSpaces[i] >= '0' && stringWithoutSpaces[i] <= '9'; i++ {
