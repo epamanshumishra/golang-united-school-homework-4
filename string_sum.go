@@ -33,7 +33,7 @@ func StringSum(input string) (output string, err error) {
 	var tmpstr string
 	stringWithoutSpaces := strings.ReplaceAll(input, " ", "")
 	if stringWithoutSpaces == "" {
-		errorEmptyString := fmt.Errorf("an error occurred:%w", errorEmptyInput)
+		errorEmptyString := fmt.Errorf("empty input:%w", errorEmptyInput)
 		return "", errorEmptyString
 	}
 	for pos := 0; pos < len(stringWithoutSpaces); pos++ {
@@ -48,7 +48,7 @@ func StringSum(input string) (output string, err error) {
 			tmpstr = stringWithoutSpaces[pos : pos+cnt]
 			intVar, err := strconv.Atoi(tmpstr)
 			if err != nil {
-				return "", fmt.Errorf("Input expression is not valid(contains characters, that are not numbers, +, - or whitespace): %w", err)
+				return "", fmt.Errorf("input expression is not valid(contains characters, that are not numbers, +, - or whitespace): %w", err)
 			}
 			if operator == '+' {
 				sum += intVar
@@ -60,11 +60,13 @@ func StringSum(input string) (output string, err error) {
 			pos += cnt
 			cnt = 0
 			intCount++
+		} else {
+			return "", fmt.Errorf("input expression is not valid(contains characters, that are not numbers, +, - or whitespace)")
 		}
 	}
-	if intCount < 2 {
-		errorLessOperands := fmt.Errorf("Less than required operands: %w", errorNotTwoOperands)
-		return "", errorLessOperands
+	if intCount != 2 {
+		errorCountOperands := fmt.Errorf("less or more than two operands: %w", errorNotTwoOperands)
+		return "", errorCountOperands
 	}
 	return strconv.Itoa(sum), nil
 }
