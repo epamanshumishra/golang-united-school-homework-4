@@ -37,9 +37,9 @@ func StringSum(input string) (output string, err error) {
 		return "", errorEmptyString
 	}
 	for pos := 0; pos < len(stringWithoutSpaces); pos++ {
-		if stringWithoutSpaces[pos] == '-' {
+		if stringWithoutSpaces[pos] == '-' || stringWithoutSpaces[pos] == 45 {
 			operator = '-'
-		} else if stringWithoutSpaces[pos] == '+' {
+		} else if stringWithoutSpaces[pos] == '+' || stringWithoutSpaces[pos] == 43 {
 			operator = '+'
 		} else if stringWithoutSpaces[pos] >= '0' && stringWithoutSpaces[pos] <= '9' {
 			for i := pos; i < len(stringWithoutSpaces) && stringWithoutSpaces[i] >= '0' && stringWithoutSpaces[i] <= '9'; i++ {
@@ -50,14 +50,14 @@ func StringSum(input string) (output string, err error) {
 			if err != nil {
 				return "", fmt.Errorf("input expression is not valid(contains characters, that are not numbers, +, - or whitespace): %w", err)
 			}
-			if operator == '+' {
+			if operator == '+' || operator == 43 {
 				sum += intVar
-			} else if operator == '-' {
+			} else if operator == '-' || operator == 45 {
 				sum -= intVar
 			} else {
 				sum = intVar
 			}
-			pos += cnt
+			pos += cnt - 1
 			cnt = 0
 			intCount++
 		} else {
