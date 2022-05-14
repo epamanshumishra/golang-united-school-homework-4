@@ -58,5 +58,5 @@ func StringSum(input string) (output string, err error) {
 		errorLessOperands := fmt.Errorf("an error occurred:%w", errorNotTwoOperands)
 		return "", errorLessOperands
 	}
-	return "", nil
+	return strconv.Itoa(sum), nil
 }
