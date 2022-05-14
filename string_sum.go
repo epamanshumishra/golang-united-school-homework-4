@@ -29,14 +29,24 @@ func StringSum(input string) (output string, err error) {
 	var sum int
 	var operator rune
 	var intCount int
-	blank := strings.TrimSpace(input) == ""
-	if blank {
+	var cnt int
+	var tmpstr string
+	stringWithoutSpaces := strings.ReplaceAll(input, " ", "")
+	if stringWithoutSpaces == "" {
 		errorEmptyString := fmt.Errorf("an error occurred:%w", errorEmptyInput)
 		return "", errorEmptyString
 	}
-	for pos := 0; pos < len(input); pos++ {
-		if input[pos] >= '0' && input[pos] <= '9' {
-			intVar, err := strconv.Atoi((string(input[pos])))
+	for pos := 0; pos < len(stringWithoutSpaces); pos++ {
+		if input[pos] == '-' {
+			operator = '-'
+		} else if input[pos] == '+' {
+			operator = '+'
+		} else if stringWithoutSpaces[pos] >= '0' && stringWithoutSpaces[pos] <= '9' {
+			for i := pos; i < len(stringWithoutSpaces) && stringWithoutSpaces[i] >= '0' && stringWithoutSpaces[i] <= '9'; i++ {
+				cnt++
+			}
+			tmpstr = stringWithoutSpaces[pos : pos+cnt]
+			intVar, err := strconv.Atoi(tmpstr)
 			if err != nil {
 				return "", fmt.Errorf("Input expression is not valid(contains characters, that are not numbers, +, - or whitespace): %w", err)
 			}
@@ -47,15 +57,13 @@ func StringSum(input string) (output string, err error) {
 			} else {
 				sum = intVar
 			}
+			pos += cnt
+			cnt = 0
 			intCount++
-		} else if input[pos] == '+' {
-			operator = '+'
-		} else if input[pos] == '-' {
-			operator = '-'
 		}
 	}
 	if intCount < 2 {
-		errorLessOperands := fmt.Errorf("an error occurred:%w", errorNotTwoOperands)
+		errorLessOperands := fmt.Errorf("Less than required operands: %w", errorNotTwoOperands)
 		return "", errorLessOperands
 	}
 	return strconv.Itoa(sum), nil
