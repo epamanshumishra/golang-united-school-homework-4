@@ -63,7 +63,7 @@ func StringSum(input string) (output string, err error) {
 		} else {
 			_, err := strconv.Atoi(tmpstr)
 			if err != nil {
-				return "", fmt.Errorf("input expression is not valid(contains characters, that are not numbers, +, - or whitespace): %w", err)
+				return "", err
 			}
 		}
 	}
