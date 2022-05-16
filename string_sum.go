@@ -61,10 +61,7 @@ func StringSum(input string) (output string, err error) {
 			cnt = 0
 			intCount++
 		} else {
-			_, err := strconv.Atoi(tmpstr)
-			if err != nil {
-				return "", err
-			}
+			return "", fmt.Errorf("invalid character")
 		}
 	}
 	if intCount != 2 {
